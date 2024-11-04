@@ -47,7 +47,7 @@ class Uncertainties:
         dy = a * ( math.e ** x ) * dx
         return dy
 
-    #for the case of f(x) = ax1^k * x2^m + ...
+    #for the case of a function like: f(x) = ax1^k * x2^m + ...
     #let's say you wan to calculate the volume of a solid; you measure the diameter and the height of the solid
     #then you use the other funcitons to calculare the área of the base
     #now you have to multiply the base area by the height, call it x1 and x2
@@ -71,14 +71,9 @@ class Uncertainties:
 
         self.uncertainty = math.sqrt(measure)
 
-#fazer uma nova; 
-#fazer o quadradro das outras e somar para ter iteração dependnedo do caso
-#fazer essa chamar e somar as outras dependendo do caso
-
-    #deixa mais sofisticada, selecionar qtd de decimais, etc
+    #just print the data; i should make it a bit more sifisticaded, displayings specified number f decimals for example
     def _show(self, measure, uncertainty):
         if(measure, uncertainty):
             print("uncert: %.2f ± %.2f" %(measure, uncertainty))
         else:
             print("uncert: %.2f ± %.2f" %(self.measure, self.uncertainty))
-

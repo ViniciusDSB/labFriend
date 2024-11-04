@@ -2,7 +2,7 @@ from basicStatistics import Statistics
 from uncertainty import Uncertainties
 import math
 
-
+#exemplo
 
 def printf(tex):
     print(tex)
@@ -24,7 +24,7 @@ dados2 = '''
 '''
 
 
-#A média a possui um desvio padrão associado
+#A média possui um desvio padrão associado
 #   desvio esse em relaçação a média
 #Também possui uma média de desvio (desvi opadrão médio)
 #E a incerteza é para grandezas medidas indiretamente

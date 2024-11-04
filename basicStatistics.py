@@ -4,7 +4,8 @@ class Statistics:
 
     def __init__(self, dataSet, format, unitFactor):
 
-        if( len(dataSet) == 0 or dataSet == ""): #if empty data was given
+        #if empty data was given
+        if( len(dataSet) == 0 or dataSet == ""):
             return False
         else:
             self.dataSetSet = dataSet
@@ -17,8 +18,8 @@ class Statistics:
             if( unitFactor != 1 and  unitFactor != 0):
                 self._convert_unit(unitFactor)
                 
-            self._media()
-            if(self.media != 0):
+            self._average()
+            if(self.average != 0):
                 self._default_deviation()
                 self._default_medium_deviation()
                 self._relative_deviation()
@@ -31,47 +32,48 @@ class Statistics:
     def _convert_unit(self, factor):
         self.dataSet = [x/factor for x in self.dataSet if factor!= 0]
 
-
-    def _media(self): #Medium value fo the measuraments, X
-        media = 0
+    #Average value fo the measuraments, X
+    def _average(self):
+        average = 0
         
         for X in self.dataSet:
-            media+= X
-        media = media/( len(self.dataSet) )
+            average+= X
+        average = average/( len(self.dataSet) )
 
-        self.media = media
+        self.average = average
 
-    def _default_deviation(self): #it represents the medium deviation around the media, where X is the measured value
+    #it represents the medium deviation around the average, where X is the measured value
+    def _default_deviation(self):
         k = 1/ (len(self.dataSet) - 1)
         sigma = 0
 
         for X in self.dataSet:
-            sigma+= ( X - self.media ) ** 2
+            sigma+= ( X - self.average ) ** 2
 
         self.defaultDeviation = math.sqrt( (k*sigma) )
 
-    def _default_medium_deviation(self):
-        defaultMediumDeviation = (self.defaultDeviation**2) / (len(self.dataSet))
+    def _default_average_deviation(self):
+        defaultAverageDeviation = (self.defaultDeviation**2) / (len(self.dataSet))
 
-        self.defaultMediumDeviation = math.sqrt( defaultMediumDeviation ) 
+        self.defaultAverageDeviation = math.sqrt( defaultAverageDeviation ) 
 
     def _relative_deviation(self):
-        if(self.media == 0):
+        if(self.average == 0):
             return 0
 
-        self.relativeDeviation = self.defaultMediumDeviation / self.media
+        self.relativeDeviation = self.defaultAverageDeviation / self.average
 
     def _show_data_set(self):
-        print("Media = %f ou %.2f" % ( self.media, self.media ))
+        print("Average = %f ou %.2f" % ( self.average, self.average ))
         print("Default deviation = %f ou  %.2f" % (self.defaultDeviation, self.defaultDeviation))
-        print("Medium default deviation = %f ou %.2f" % (self.defaultMediumDeviation, self.defaultMediumDeviation))
+        print("Average default deviation = %f ou %.2f" % (self.defaultAverageDeviation, self.defaultAverageDeviation))
         print("Relative deviation = %f %% ou %.2f %%" % (self.relativeDeviation, (self.relativeDeviation *100)))
 
-        print("Medida = %.2f ± %.2f" % (self.media, self.defaultMediumDeviation) )
+        print("Average = %.2f ± %.2f" % (self.average, self.defaultAverageDeviation) )
 
-#dadosgenericos = [1,2,3,4,5,6,7,8,9]
-#ou
-#dadosGenericos = '''0,51
+#genericDataExemple = [1,2,3,4,5,6,7,8,9]
+#or
+#genericDataExemple = '''0,51
 #0,77
 #0,85
 #0,61'''
