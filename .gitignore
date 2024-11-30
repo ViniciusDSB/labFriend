@@ -1,3 +1,11 @@
 .vscode
+
+bin
+include
+lib
+lib64
+share
+pyvenv.cfg
+
 __pycache__
 notes.txt
