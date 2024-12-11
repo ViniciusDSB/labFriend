@@ -2,7 +2,7 @@
 <h3>This is just some functions to calculate some stuff for some of my laboratory reports.</h3>
 
 <p>This is not working very well right now, i got some wrong values trying to calculate the uncertainty<br>
-i think there and error in data unit conversion<br>
+I think there is also an error in data unit conversion, but i forgot<br>
 furthermore i have to make it more "user friendly"</p>
 
 <h2> Weird Documentation </h2>
@@ -75,6 +75,8 @@ by default the numbers comes with two decimals.<br>
 # Uncertainty
 
 # Ploting
-usage exemple in main
+Usage exemple in main<br>
+You can initialize the plotign class, and call some methods to get regresion dat and plot the graph<br>
+The grapsh also displays the regression data, like R squared, slope and intercept<br>
 
-<br>This is not done.
+<br>This is not finished.
