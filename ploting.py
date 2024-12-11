@@ -1,52 +1,83 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
+from scipy.stats import linregress
 
-class plotRegression:
-    def __init__(self, title=None, xLabel=None, yLabel=None, xData=None, yData=None):
-        self.title = title if title is not None else ""
-        self.xLabel = xLabel if xLabel is not None else ""
-        self.yLabel = yLabel if yLabel is not None else ""
-
-        if  xData is not None and yData is not None:
-            self.xData = np.array( xData )
-            self.yData = np.array( yData )
+class PlotStuff:
+    def __init__(self, x, y, title, xlabel="x", ylabel="y"):
+        
+        if  x is not None and y is not None:
+            self.xData = np.array(x)
+            self.yData = np.array(y)
         else:
             raise Exception("At least x and y data must be given")
 
-    def applyRegression(self):
+        self.title = title
+        self.xlabel = xlabel
+        self.ylabel = ylabel
 
-        y0 = self.yData[0]  # Original length at the first temperature
-        delta_y_by_y0 = (self.yData - y0) / y0  # Normalized change in length
+        self.slope = None
+        self.intercept = None
+        self.r_squared = None
 
-        # Perform linear regression
-        x = self.xData.reshape(-1, 1)  # Reshape to 2D array for sklearn
-        y = delta_y_by_y0
+    def plot_data(self):
+        #Plot the data points.
 
-        regressor = LinearRegression()
-        regressor.fit(x, y)
+        plt.scatter(self.xData, self.yData, color="blue", label="Data points")
+        plt.xlabel(self.xlabel)
+        plt.ylabel(self.ylabel)
+        plt.title(self.title)
 
-        # Get the slope of the line (thermal expansion coefficient)
-        coefficient = regressor.coef_[0]
+        # Configurar estilo de papel milimetrado
+        plt.grid(which="major", color="black", linewidth=0.5)
+        plt.grid(which="minor", color="gray", linewidth=0.2, linestyle="--")
+        plt.minorticks_on()
+        plt.tick_params(which="major", length=7)
+        plt.tick_params(which="minor", length=4)
 
-        # Predicted values for the regression line (normalized scale)
-        y_pred_normalized = regressor.predict(x)
-
-        # Convert the regression line back to the original scale
-        y_pred_original = y_pred_normalized * y0 + y0
-
-        # Plot the original data (length vs. temperature)
-        plt.figure(figsize=(8, 6))
-        plt.scatter(self.xData, self.yData, color='blue', label='Data')
-
-        # Plot the regression line (in the original scale)
-        plt.plot(self.xData, y_pred_original, color='red', linestyle='-', label='Linear Fit')
-        
-        plt.title(f'{self.title} \n Coefficient: {coefficient:.6f}')
-        plt.xlabel(self.xLabel)
-        plt.ylabel(self.yLabel)
         plt.legend()
         plt.grid(True)
         plt.show()
 
+    def perform_regression(self):
+        #Perform linear regression on the data.
+        
+        slope, intercept, r_value, _, _ = linregress(self.xData, self.yData)
+        self.slope = slope
+        self.intercept = intercept
+        self.r_squared = r_value ** 2
+
+    def plot_regression_line(self):
+        #Plot the data points along with the regression line.
+
+        if self.slope is None or self.intercept is None:
+            self.perform_regression()
+
+        plt.scatter(self.xData, self.yData, color="blue", label="Data points")
+        regression_line = self.slope * self.xData + self.intercept
+        plt.plot(self.xData, regression_line, color="red", linestyle="-", label=f"Regression line\nR squared ={self.r_squared:.3f}\nIntercept = {self.intercept}\nSlope = {self.slope}")
+        plt.xlabel(self.xlabel)
+        plt.ylabel(self.ylabel)
+
+        # Configurar estilo de papel milimetrado
+        plt.grid(which="major", color="black", linewidth=0.5)
+        plt.grid(which="minor", color="gray", linewidth=0.2, linestyle="--")
+        plt.minorticks_on()
+        plt.tick_params(which="major", length=7)
+        plt.tick_params(which="minor", length=4)
+
+        plt.title(self.title)
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+
+    def get_regression_info(self):
+        #Return the slope, intercept, and R-squared value of the regression.
+        
+        if self.slope is None or self.intercept is None:
+            raise ValueError("You must perform regression before accessing its info.")
+        return {
+            "slope": self.slope,
+            "intercept": self.intercept,
+            "r_squared": self.r_squared
+        }
 
